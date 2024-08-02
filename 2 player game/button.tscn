@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://d36q4ul26cvub"]
+
+[ext_resource type="Texture2D" uid="uid://1ylgg84frc8j" path="res://icon.svg" id="1_3nrhd"]
+
+[sub_resource type="GDScript" id="GDScript_ns16t"]
+script/source = "extends StaticBody2D
+
+func _on_area_2d_area_entered(area):
+	var animated_sprite_2d=get_node(\"../AnimatedSprite2D\")
+	if animated_sprite_2d:
+		animated_sprite_2d.queue_free()
+	queue_free()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kftsv"]
+size = Vector2(126, 121)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2xv8m"]
+size = Vector2(126, 130)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = SubResource("GDScript_ns16t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -0.5)
+shape = SubResource("RectangleShape2D_kftsv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3nrhd")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_2xv8m")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
